@@ -2,6 +2,9 @@
   "name": "multi_auth",
   "main": "expo-router/entry",
   "version": "1.0.0",
+  "expo": {
+    "name": "multi_auth"
+  },
   "scripts": {
     "start": "expo start",
     "reset-project": "node ./scripts/reset-project.js",
@@ -22,6 +25,7 @@
     "expo-font": "~12.0.9",
     "expo-linking": "~6.3.1",
     "expo-router": "~3.5.18",
+    "expo-secure-store": "~13.0.2",
     "expo-splash-screen": "~0.27.5",
     "expo-status-bar": "~1.12.1",
     "expo-system-ui": "~3.0.7",
