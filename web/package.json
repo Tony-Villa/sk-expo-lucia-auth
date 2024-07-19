@@ -9,7 +9,13 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "prettier --check . && eslint .",
-		"format": "prettier --write ."
+		"format": "prettier --write .",
+		"db:generate": "drizzle-kit generate",
+		"db:push": "drizzle-kit push",
+		"db:up": "drizzle-kit up",
+		"db:migrate": "drizzle-kit migrate",
+		"db:pull": "drizzle-kit pull:sqlite",
+		"db:studio": "drizzle-kit studio"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^3.0.0",
@@ -33,6 +39,11 @@
 	"type": "module",
 	"dependencies": {
 		"@libsql/client": "^0.7.0",
-		"drizzle-orm": "^0.32.0"
+		"@lucia-auth/adapter-drizzle": "^1.0.7",
+		"arctic": "^1.9.2",
+		"dotenv": "^16.4.5",
+		"drizzle-orm": "^0.32.0",
+		"lucia": "^3.2.0",
+		"oslo": "^1.2.1"
 	}
 }
