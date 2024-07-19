@@ -6,7 +6,7 @@ import type { RequestEvent } from '@sveltejs/kit';
 import { db } from '$lib/server/db';
 import { and, eq } from 'drizzle-orm';
 import { users, keys } from '$lib/server/db/schema';
-import { createAndSetSession } from '$lib/server/lucia/authUtils';
+import { createSession } from '$lib/server/lucia/authUtils';
 
 export async function GET(event: RequestEvent): Promise<Response> {
 	const code = event.url.searchParams.get('code');
@@ -32,6 +32,8 @@ export async function GET(event: RequestEvent): Promise<Response> {
 		const [existingUser] = await db.select().from(users).where(eq(users.email, discordUser.email))
 
 		console.log('Made it into discord callback!');
+
+		let session;
 
 		if (existingUser) {
 			const [existingKey] = await db
@@ -63,7 +65,7 @@ export async function GET(event: RequestEvent): Promise<Response> {
 				});
 			}
 
-			await createAndSetSession(lucia, existingUser.id, event.cookies);
+			session = await createSession(existingUser.id);
 
 		} else {
 			const userId = generateId(15);
@@ -86,13 +88,13 @@ export async function GET(event: RequestEvent): Promise<Response> {
 
 			});
 
-			await createAndSetSession(lucia, userId, event.cookies);
+			session = await createSession(userId);
 		}
 
 		return new Response(null, {
 			status: 302,
 			headers: {
-				Location: `myapp://login?session_token=${123}`
+				Location: `myapp://login?session_token=${session.id}`
 				}
 			}
 		);
