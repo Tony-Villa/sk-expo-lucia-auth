@@ -13,8 +13,8 @@ import { StatusBar } from 'expo-status-bar'
 
 type User = {
   id: string
-  username: string
-  avatar: string
+  name: string
+  avatarUrl: string
 }
 type Provider = 'github' | 'discord' | 'google'
 
@@ -112,11 +112,11 @@ export default function Test() {
         ) : currentUser ? (
           <View style={styles.userInfo}>
             <Image
-              style={{ width: 100, height: 100 }}
-              source={{ uri: currentUser.avatar }}
+              style={{ width: 100, height: 100, borderRadius: 50 }}
+              source={{ uri: currentUser.avatarUrl }}
             />
             <Text style={[styles.text, { fontSize: 16 }]}>
-              username: {currentUser.username}
+              username: {currentUser.name}
             </Text>
             <Text style={styles.text}>id: {currentUser.id}</Text>
             <Button title="Sign out" onPress={signOut} />
