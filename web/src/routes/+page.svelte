@@ -1,7 +1,7 @@
 <script lang="ts">
   let {data} = $props()
 
-  console.log(data)
+  // console.log(data)
 </script>
 
 <h1>Welcome to SvelteKit</h1>
