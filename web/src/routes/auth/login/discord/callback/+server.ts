@@ -6,12 +6,14 @@ import type { RequestEvent } from '@sveltejs/kit';
 import { db } from '$lib/server/db';
 import { and, eq } from 'drizzle-orm';
 import { users, keys } from '$lib/server/db/schema';
-import { createSession } from '$lib/server/lucia/authUtils';
+import { createAndSetSession, createSession } from '$lib/server/lucia/authUtils';
 
 export async function GET(event: RequestEvent): Promise<Response> {
 	const code = event.url.searchParams.get('code');
 	const state = event.url.searchParams.get('state');
+	const redirectUrl = event.cookies.get('redirectUrl')
 	const storedState = event.cookies.get('discord_oauth_state') ?? null;
+	const isNativeApp = (redirectUrl || '').includes('http')
 
 	if (!code || !state || !storedState || state !== storedState) {
 		console.log('Invalid OAuth state or code verifier');
@@ -65,7 +67,11 @@ export async function GET(event: RequestEvent): Promise<Response> {
 				});
 			}
 
-			session = await createSession(existingUser.id);
+			if(isNativeApp){
+				await createAndSetSession(lucia, existingUser.id, event.cookies)
+			} else {
+				session = await createSession(existingUser.id);
+			}
 
 		} else {
 			const userId = generateId(15);
@@ -88,13 +94,18 @@ export async function GET(event: RequestEvent): Promise<Response> {
 
 			});
 
-			session = await createSession(userId);
+			if(isNativeApp){
+				await createAndSetSession(lucia, userId, event.cookies)
+			} else {
+				session = await createSession(userId);
+			}
 		}
 
 		return new Response(null, {
 			status: 302,
 			headers: {
-				Location: `myapp://login?session_token=${session.id}`
+				// CHANGEME: change this to your redirect URL.
+				Location: `${redirectUrl}?session_token=${session?.id}`
 				}
 			}
 		);
