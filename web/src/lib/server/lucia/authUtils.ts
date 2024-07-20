@@ -7,24 +7,24 @@ export const GITHUB_OAUTH_STATE_COOKIE_NAME = 'githubOauthState';
 export const GOOGLE_OAUTH_STATE_COOKIE_NAME = 'googleOauthState';
 export const GOOGLE_OAUTH_CODE_VERIFIER_COOKIE_NAME = 'googleOauthCodeVerifier';
 
-// export const createAndSetSession = async (lucia: Lucia, userId: string, cookies: Cookies) => {
-// 	const session = await lucia.createSession(userId, {});
-// 	const sessionCookie = lucia.createSessionCookie(session.id);
+export const createAndSetSession = async (lucia: Lucia, userId: string, cookies: Cookies) => {
+	const session = await lucia.createSession(userId, {});
+	const sessionCookie = lucia.createSessionCookie(session.id);
 
-// 	cookies.set(sessionCookie.name, sessionCookie.value, {
-// 		path: '.',
-// 		...sessionCookie.attributes
-// 	});
-// };
+	cookies.set(sessionCookie.name, sessionCookie.value, {
+		path: '.',
+		...sessionCookie.attributes
+	});
+};
 
-// export const deleteSessionCookie = async (lucia: Lucia, cookies: Cookies) => {
-// 	const sessionCookie = lucia.createBlankSessionCookie();
+export const deleteSessionCookie = async (lucia: Lucia, cookies: Cookies) => {
+	const sessionCookie = lucia.createBlankSessionCookie();
 
-// 	cookies.set(sessionCookie.name, sessionCookie.value, {
-// 		path: '.',
-// 		...sessionCookie.attributes
-// 	});
-// };
+	cookies.set(sessionCookie.name, sessionCookie.value, {
+		path: '.',
+		...sessionCookie.attributes
+	});
+};
 
 export const createSession = async (userId: string) => {
 	return await lucia.createSession(userId, {});
