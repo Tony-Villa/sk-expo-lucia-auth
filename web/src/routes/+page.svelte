@@ -19,6 +19,4 @@
   </form>
   <h1>{data.user.user?.name}</h1>
 {/if}
-<!-- <a href="/auth/login/google">Google</a>
-<a href="/auth/login/github">Github</a>
-<a href="/auth/login/discord">Discord</a> -->
+
