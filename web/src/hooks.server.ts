@@ -5,7 +5,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 	// Get the session ID from the cookies
 	const sessionId = event.cookies.get(lucia.sessionCookieName);
 
-	// If there's no session ID, set user and session to null and resolve theer quest
+	// If there's no session ID, set user and session to null and resolve their request
 
 	if (!sessionId) {
 		event.locals.user = null;
