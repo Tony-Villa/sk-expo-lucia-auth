@@ -29,6 +29,6 @@ export const actions = {
 
 		await deleteSessionCookie(lucia, cookies);
 
-		throw redirect(303, '/draft-center');
+		throw redirect(303, '/');
 	},
 } satisfies Actions;
