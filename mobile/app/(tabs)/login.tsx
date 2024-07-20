@@ -18,8 +18,7 @@ type User = {
 }
 type Provider = 'github' | 'discord' | 'google'
 
-// const apiUrl = process.env.EXPO_PUBLIC_API_URL
-const apiUrl = 'http://localhost:5173'
+const apiUrl = process.env.EXPO_PUBLIC_API_URL
 const session_token = 'session_token'
 
 export default function Test() {
@@ -41,8 +40,12 @@ export default function Test() {
   }
 
   const signIn = async (provider: Provider) => {
+    const authUrl = new URL(`${apiUrl}/auth/login/${provider}`)
+    authUrl.searchParams.set('redirectUrl', redirectURL)
+
+
     const result = await Browser.openAuthSessionAsync(
-      `${apiUrl}/auth/login/${provider}`,
+      authUrl.toString(),
       redirectURL,
       { preferEphemeralSession: true }
     )
