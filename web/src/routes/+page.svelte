@@ -7,7 +7,7 @@
 <h1>Welcome to SvelteKit</h1>
 <p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
 
-{#if !data.isAuthenticated}
+{#if !data.isLoggedIn}
   <form method="POST" action="?/login">
     <button formaction="?/login&provider=google">Google</button>
     <button formaction="?/login&provider=github">Github</button>

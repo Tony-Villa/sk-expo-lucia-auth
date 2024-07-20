@@ -7,7 +7,7 @@ const redirectUrl = 'http://localhost:5173'
 
 export const load: PageServerLoad = async ({ locals }) => {
   
-  return {user: locals, isAuthenticated: locals.session !== null }
+  return {user: locals, isLoggedIn: locals.session !== null }
 };
 
 export const actions = {
