@@ -12,7 +12,6 @@ export const load: PageServerLoad = async ({ locals }) => {
 
 export const actions = {
 	login: async (event) => {
-		// TODO log the user in
     const provider = event.url.searchParams.get('provider')
     const authUrl = new URL(`http://localhost:5173/auth/login/${provider}`)
     authUrl.searchParams.set('redirectUrl', redirectUrl)
