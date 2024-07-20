@@ -6,6 +6,7 @@ import type { RequestEvent } from '@sveltejs/kit';
 
 export async function GET(event: RequestEvent): Promise<Response> {
 	const state = generateState();
+	const redirectUrl = event.url.searchParams.get('redirectUrl')
 	const url = await discord.createAuthorizationURL(state, {
 		scopes: ['identify']
 	});
@@ -17,6 +18,16 @@ export async function GET(event: RequestEvent): Promise<Response> {
 		maxAge: 60 * 10,
 		sameSite: 'lax'
 	});
+
+	event.cookies.set('redirectUrl', redirectUrl || '', {
+		path: '/',
+		secure: import.meta.env.PROD,
+		httpOnly: true,
+		maxAge: 60 * 10,
+		sameSite: 'lax'
+	});
+
+	console.log('redirect to callback url: ', url.toString());
 
 	redirect(302, url.toString());
 }

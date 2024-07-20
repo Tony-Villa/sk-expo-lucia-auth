@@ -18,6 +18,7 @@ export const discord = new Discord(
 	discordCallback
 );
 
+
 export const lucia = new Lucia(adapter, {
 	sessionCookie: {
 		attributes: {
