@@ -17,7 +17,6 @@ export const actions = {
     const authUrl = new URL(`http://localhost:5173/auth/login/${provider}`)
     authUrl.searchParams.set('redirectUrl', redirectUrl)
 
-    // console.log(authUrl.toString());
     throw redirect(303, authUrl.toString())
 	},
   logout: async ({ cookies, locals }) => {
