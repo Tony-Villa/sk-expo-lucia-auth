@@ -6,10 +6,8 @@ import { lucia } from '$lib/server/lucia';
 const redirectUrl = 'http://localhost:5173'
 
 export const load: PageServerLoad = async ({ locals }) => {
-
-  console.log(locals);
   
-  return {user: locals, isAuthenticated: locals.session !== undefined }
+  return {user: locals, isAuthenticated: locals.session !== null }
 };
 
 export const actions = {
