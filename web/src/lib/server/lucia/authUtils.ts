@@ -1,7 +1,6 @@
 import type { Cookies } from '@sveltejs/kit';
 import type { Lucia, Session, User } from 'lucia';
 import { lucia } from '$lib/server/lucia';
-import type { RequestEvent } from '../../../routes/api/$types';
 
 export const GITHUB_OAUTH_STATE_COOKIE_NAME = 'githubOauthState';
 export const GOOGLE_OAUTH_STATE_COOKIE_NAME = 'googleOauthState';
