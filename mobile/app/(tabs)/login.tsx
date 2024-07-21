@@ -21,7 +21,7 @@ type Provider = 'github' | 'discord' | 'google'
 const apiUrl = process.env.EXPO_PUBLIC_API_URL
 const session_token = 'session_token'
 
-export default function Test() {
+export default function Login() {
 
   const [currentUser, setCurrentUser] = useState<User | null | undefined>(
     undefined
@@ -95,8 +95,8 @@ export default function Test() {
 
   return (
     <ParallaxScrollView 
-     headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={<Ionicons size={310} name="code-slash" style={{color: '#808080',
+      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
+      headerImage={<Ionicons size={310} name="bus" style={{color: '#1D3D47',
       bottom: -90,
       left: -35,
       position: 'absolute',}} />}
