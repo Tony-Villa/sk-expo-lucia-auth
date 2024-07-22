@@ -7,8 +7,10 @@ import ParallaxScrollView from '@/components/ParallaxScrollView'
 import { Ionicons } from '@expo/vector-icons'
 import { ThemedView } from '@/components/ThemedView'
 import { ThemedText } from '@/components/ThemedText'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { StatusBar } from 'expo-status-bar'
+import { getUser } from '@/helpers/get-user'
+import { UserContext } from '@/helpers/contexts'
 
 
 type User = {
@@ -22,22 +24,10 @@ const apiUrl = process.env.EXPO_PUBLIC_API_URL
 const session_token = 'session_token'
 
 export default function Login() {
-
-  const [currentUser, setCurrentUser] = useState<User | null | undefined>(
-    undefined
-  )
   const redirectURL = Linking.createURL('login')
 
-  const getUser = async (sessionToken: string): Promise<User | null> => {
-    const res = await fetch(`${apiUrl}/auth/me`, {
-      headers: {
-        Authorization: `Bearer ${sessionToken}`,
-      },
-    })
-
-    if (!res.ok) return null
-    return await res.json()
-  }
+  const {user, setUser} = useContext(UserContext)
+  console.log(user)
 
   const signIn = async (provider: Provider) => {
     const authUrl = new URL(`${apiUrl}/auth/login/${provider}`)
@@ -58,7 +48,7 @@ export default function Login() {
 
     const user = await getUser(sessionToken)
     await SecureStore.setItemAsync(session_token, sessionToken)
-    setCurrentUser(user)
+    setUser(user)
   }
 
   const signOut = async () => {
@@ -72,7 +62,7 @@ export default function Login() {
 
     if (!res.ok) return
     await SecureStore.deleteItemAsync(session_token)
-    setCurrentUser(null)
+    setUser(null)
   }
 
   useEffect(() => {
@@ -88,7 +78,7 @@ export default function Login() {
       } else {
         await SecureStore.deleteItemAsync(session_token)
       }
-      setCurrentUser(user)
+      setUser(user)
     }
     setup()
   }, [])
@@ -110,18 +100,18 @@ export default function Login() {
         Expo OAuth with Lucia
       </Text>
       <View style={styles.providers}>
-        {currentUser === undefined ? (
+        {user === undefined ? (
           <Text style={styles.text}>Loading...</Text>
-        ) : currentUser ? (
+        ) : user ? (
           <View style={styles.userInfo}>
             <Image
               style={{ width: 100, height: 100, borderRadius: 50 }}
-              source={{ uri: currentUser.avatarUrl }}
+              source={{ uri: user.avatarUrl }}
             />
             <Text style={[styles.text, { fontSize: 16 }]}>
-              username: {currentUser.name}
+              username: {user.name}
             </Text>
-            <Text style={styles.text}>id: {currentUser.id}</Text>
+            <Text style={styles.text}>id: {user.id}</Text>
             <Button title="Sign out" onPress={signOut} />
           </View>
         ) : (
