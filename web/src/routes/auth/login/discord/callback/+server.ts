@@ -102,7 +102,6 @@ export async function GET(event: RequestEvent): Promise<Response> {
 		return new Response(null, {
 			status: 302,
 			headers: {
-				// CHANGEME: change this to your redirect URL.
 				Location: `${redirectUrl}?session_token=${session?.id}`
 				}
 			}
