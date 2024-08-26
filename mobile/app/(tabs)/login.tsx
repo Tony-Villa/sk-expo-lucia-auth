@@ -1,17 +1,15 @@
-import { StyleSheet, Text ,View, Button, Image } from 'react-native'
+import { StyleSheet, Text ,View, Image, ScrollView } from 'react-native'
+import {Button} from '@/components'
 import * as Browser from 'expo-web-browser'
 import * as Linking from 'expo-linking'
 import * as SecureStore from 'expo-secure-store'
 
-import ParallaxScrollView from '@/components/ParallaxScrollView'
-import { Ionicons } from '@expo/vector-icons'
 import { ThemedView } from '@/components/ThemedView'
 import { ThemedText } from '@/components/ThemedText'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect } from 'react'
 import { StatusBar } from 'expo-status-bar'
 import { getUser } from '@/helpers/get-user'
 import { UserContext } from '@/helpers/contexts'
-
 
 type User = {
   id: string
@@ -27,7 +25,7 @@ export default function Login() {
   const redirectURL = Linking.createURL('login')
 
   const {user, setUser} = useContext(UserContext)
-  console.log(user)
+  // console.log(user)
 
   const signIn = async (provider: Provider) => {
     const authUrl = new URL(`${apiUrl}/auth/login/${provider}`)
@@ -84,21 +82,14 @@ export default function Login() {
   }, [])
 
   return (
-    <ParallaxScrollView 
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={<Ionicons size={310} name="bus" style={{color: '#1D3D47',
-      bottom: -90,
-      left: -35,
-      position: 'absolute',}} />}
+    <ScrollView 
+      style={{backgroundColor: '#fff', marginTop: 50}}
     >
-      <ThemedView>
-      <ThemedText type="title">Test</ThemedText>
+      <ThemedView style={{flex: 1, alignItems: 'center', justifyContent: 'center', marginTop: 100}}>
+      <ThemedText type="title">Login</ThemedText>
 
       <View style={styles.container}>
-      <Text>{redirectURL}</Text>
-      <Text style={[styles.text, { fontSize: 24, fontWeight: '600' }]}>
-        Expo OAuth with Lucia
-      </Text>
+      {/* <Text>{redirectURL}</Text> */}
       <View style={styles.providers}>
         {user === undefined ? (
           <Text style={styles.text}>Loading...</Text>
@@ -112,43 +103,54 @@ export default function Login() {
               username: {user.name}
             </Text>
             <Text style={styles.text}>id: {user.id}</Text>
-            <Button title="Sign out" onPress={signOut} />
+            <Button  onPress={signOut}>
+              <ThemedText type='defaultSemiBold'>
+                Sign out
+              </ThemedText>
+            </Button>
           </View>
         ) : (
-          <>
-            <Button
-              title="Sign in with Github"
-              onPress={() => signIn('github')}
-            />
-            <Button
-              title="Sign in with Discord"
-              onPress={() => signIn('discord')}
-            />
-            <Button
-              title="Sign in with Google"
-              onPress={() => signIn('google')}
-            />
-          </>
+          <View
+          style={{marginTop: 50, paddingHorizontal: 30, gap: 20}}
+          >
+            <Button onPress={() => signIn('github')}>
+              <ThemedText type='defaultSemiBold'>
+              Sign in with Github (not set up)
+              </ThemedText>
+            </Button>
+            <Button 
+            onPress={() => signIn('discord')}>
+              <ThemedText type='defaultSemiBold'>
+              Sign in with Discord
+              </ThemedText>
+            </Button>
+            <Button onPress={() => signIn('google')}>
+              <ThemedText type='defaultSemiBold'>
+              Sign in with Google (not set up)
+              </ThemedText>
+            </Button>
+          </View>
         )}
       </View>
       <StatusBar style="dark" />
     </View>
       </ThemedView>
-    </ParallaxScrollView>
+    </ScrollView>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#212121',
+    // backgroundColor: '#212121',
     alignItems: 'center',
     justifyContent: 'center',
+    
   },
   userInfo: {
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 2,
+    gap: 20,
   },
   providers: {
     marginTop: 10,
@@ -157,6 +159,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   text: {
-    color: 'white',
+    color: '#212121',
   },
 })
