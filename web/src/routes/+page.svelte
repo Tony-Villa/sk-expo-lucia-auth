@@ -6,7 +6,7 @@
 
 <div class="flex flex-col justify-center align-middle mt-24 w-full h-full">
   <h1 class="text-3xl font-bold underline text-center mb-8">
-    {#if !data?.user}
+    {#if !data?.user?.user?.name}
     Sign In
     {:else}
     Sign Out
